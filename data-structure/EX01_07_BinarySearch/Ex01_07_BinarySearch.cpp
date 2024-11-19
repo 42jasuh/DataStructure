@@ -61,7 +61,8 @@ int BinarySearch(int* arr, int n, int x) // 이진 탐색
 		{
 			cout << "Found " << middle << endl;
 			return middle;
-		}		
+		}
+		
 	}
 
 	cout << "Not found" << endl;
@@ -76,7 +77,7 @@ int main()
 	assert(n > 0);
 	
     InsertionSort(arr, n);
-	int res = BinarySearch(arr, n, 3);
+	int res = BinarySearch(arr, n, 10);
 	
     cout << res << endl;
 
