@@ -1,68 +1,37 @@
 #include <iostream>
 
-#define ARRAY_SIZE 3
-
 using namespace std;
 
-void ShiftArrayLeft(char *arr, int n)
+void PrintArray(char *arr, int size)
 {
-    char temp = arr[0];
-    for (int i=1; i < n; i++)
-        arr[i-1] = arr[i];
-    arr[n-1] = temp;
-}
-
-void PrintArray(char *arr, int n)
-{
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < size; i++)
         cout << arr[i] << " ";
-    cout << endl;    
+    cout << endl;
 }
 
-void GeneratePermutations(char *tempArr, char *inputArr, int left, int right)
+void RecurPermutations(char *arr, int left, int right)
 {
-    if (left==right)
+    if (left == right)
     {
-        PrintArray(inputArr, ARRAY_SIZE);
-        swap(inputArr[1], inputArr[2]);
-        PrintArray(inputArr, ARRAY_SIZE);
-        swap(inputArr[1], inputArr[2]);
-        return;
+        for (int i = 0; i <= right; i++)
+            cout << arr[i] << " ";
+        cout << endl;
     }
-
-    tempArr[left] = inputArr[left];
-    GeneratePermutations(tempArr, inputArr, left+1, right);    
-}
-
-void final(char *temp, char *input, int left, int right)
-{
-   GeneratePermutations(temp, input, 0, 3);   
-   for (int i = 0; i < 2; i++)
-   {
-      ShiftArrayLeft(input, 3);
-      GeneratePermutations(temp, input, 0, 3);
-   }  
-}
-
-void CustomPermutation(char *inputArr, int n)
-{
-    for (int i = 0; i < n-2; i++)
+    else
     {
-        char tempArr[3] = {'0'};
-        char input_arr[3] = {'0'};
-        int j = i;
-        for (int k = 0; k < 3; k++)
-            input_arr[k] = inputArr[j++];
-        final(tempArr, input_arr, 0, 3);
+        for (int i = left; i <= right; i++)
+        {
+            swap(arr[left], arr[i]);
+            RecurPermutations(arr, left+1, right);
+            swap(arr[left], arr[i]);
+        }
     }
 }
-
-
 
 int main()
-{
-   char input[] = {'a', 'b', 'c', 'd', 'e', 'f'};   
-   
-   CustomPermutation(input, 6);
-   return 0;
+{   
+    char arr[] = {'a', 'b', 'c', 'd'};
+    int size = sizeof(arr)/sizeof(arr[0]);
+    RecurPermutations(arr, 0, size-1);
+ 
 }
