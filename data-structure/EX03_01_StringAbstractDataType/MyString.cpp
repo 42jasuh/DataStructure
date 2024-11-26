@@ -13,27 +13,34 @@ MyString::MyString()
 MyString::MyString(const char* init)
 {
 	// 크기(size_) 결정
-    size_ = strlen(init) + 1;
+    int i = 0;
+	while(init[i]!='\0')
+		size_++;
+	str_ = new char[size_];
 
 	// 메모리 할당
-    str_ = (char*)malloc(size_+1);
+    str_ = new char[size_];
 
 	// 데이터 복사
-	int i = 0;
-	for(; i < size_; i++)
-		str_[i] = init[i];
-	str_[i] = '\0';
+	memcpy(str_, init, size_);
 }
 
 // MyString의 다른 instance로부터 초기화
 MyString::MyString(const MyString& str)
-{
-    str_ = str.str_;
+{    
+	// 기본 복사 생성자는 포인터 주소를 복사하기 때문에 소멸시 오류 발생
+	// 여기서는 새로운 메모리를 할당 받아 복사
     size_ = str.size_;
+	str_ = new char[size_];
+	memcpy(str_, str.str_, size_);
 }
 
 MyString::~MyString()
 {
+	if (str_ != nullptr)
+	{
+		delete str_;
+	}
 }
 
 bool MyString::IsEmpty()
@@ -43,22 +50,12 @@ bool MyString::IsEmpty()
 
 bool MyString::IsEqual(const MyString& str) // 편의상 참조& 사용
 {
-	// 힌트: str.str_, str.size_ 가능
-	int i = 0;
-	int j = 0;
-
-	while (str.str_[i] != '\0' && str_[j] != '\0')
-	{		
-		if (str.str_[i] == str_[j])
-		{
-			i++;
-			j++;
-		}
-		else
+	if (this->size_ != str.size_)
+		return false;
+	
+	for (int i = 0; i < this->size_; i++)
+		if (str_[i] != str.str_[i])
 			return false;
-	}
-	if (str.str_[i] == '\0' && str_[j] == '\0')
-		return true;
 	return false;
 }
 
@@ -70,6 +67,16 @@ int MyString::Length()
 void MyString::Resize(int new_size)
 {
 	// 메모리 재할당과 원래 갖고 있던 내용 복사
+	if (new_size != size_)
+	{
+		char *new_str = new char[new_size];
+		for (int i = 0; i < (new_size < size_ ? new_size : size_); i++)
+			new_str[i] = str_[i];
+
+		delete[] str_;
+		str_ = new_str;
+		size_ = new_size;
+	}
 }
 
 // 인덱스 start위치의 글자부터 num개의 글자로 새로운 문자열 만들기
@@ -79,19 +86,11 @@ MyString MyString::Substr(int start, int num)
 	assert(start + num - 1 < this->size_); // 문제를 단순하게 만들기 위해 가정
 
 	MyString temp;
-	temp.size_ = num - start + 1;
-	temp.str_ = (char*)malloc(temp.size_);
+	temp.Resize(num);
 
-	int i = 0;
-	int j = start;
+	for(int i = 0; i < num; i++)
+		temp.str_[i] = this->str_[start+i];
 
-	while(i < temp.size_)
-	{
-		temp.str_[i] = this->str_[j];
-		i++;
-		j++;
-	}
-	temp.str_[i]='\0';
 	return temp;
 }
 
@@ -99,19 +98,12 @@ MyString MyString::Concat(MyString app_str)
 {
 	MyString temp;
 
-	temp.size_ = this->size_ + app_str.size_ - 1;
-	temp.str_ = (char*)malloc(temp.size_);
+	temp.Resize(this->size_ + app_str.size_);
 
-	int i = 0;
-	int j = 0;
-	for(; i < this->size_; i++)
-		temp.str_[i] = this->str_[i];
-	for(; i < temp.size_; i++)
-	{
-		temp.str_[i] = app_str.str_[j];
-		j++;
-	}
-	temp.str_[i] = '\0';
+	memcpy(temp.str_, this->str_, this->size_);
+	memcpy(&temp.str_[size_], app_str.str_, app_str.size_);
+
+
 	return temp;
 }
 
@@ -122,58 +114,32 @@ MyString MyString::Insert(MyString t, int start)
 
 	MyString temp;
 
-	// TODO:
-	temp.size_ = size_ + t.size_ -1;
-	char* m = (char*)malloc(temp.size_);
-	temp.str_ = m;
-
-	int i = 0;
-	int j = 0;
-	int k = 0;
-	for (; i < start; i++)
-	{
-		m[i] = str_[i];
-		j++;
-	}
-	for(; i < start+t.size_; i++)
-	{
-		m[i] = t.str_[k];
-		k++;
-	}
-	for(; i < t.size_ + size_; i++)
-		m[i] = str_[j++];
-	m[i] = '\0';
+	temp.Resize(size_+t.size_);
+	for (int i = 0; i < start; i++)
+		temp.str_[i] = str_[i];
+	
+	for (int i = start; i < start + t.size_; i++)
+		temp.str_[start] = t.str_[i-start];
+	
+	for (int i = start+size_; i < size_+t.size_; i++)
+		temp.str_[i] = str_[i-t.size_];
 
 	return temp;
 } 
 
 int MyString::Find(MyString pat)
 {
-	//TODO:
-	int i = 0;
-	int j = 0;
-	int s = -1;
-
-	while(str_[j] != '\0')
+	for (int start = 0; start <= Length() - pat.Length(); start++)
 	{
-		if (pat.str_[i] == '\0')
-			return s;
-		if (pat.str_[i] == str_[j] && s == -1)
-			s = j;
-		if (pat.str_[i] == str_[j])
+		for (int j = 0; j < pat.Length(); j++)
 		{
-			j++;
-			i++;
-		}
-		else if (pat.str_[i] != str_[j])
-		{
-			i = 0;
-			j++;
-			s = -1;
+			if (str_[start+j] != pat.str_[j])
+				break;
+			if (j == pat.Length() - 1)
+				return start;
 		}
 	}
-	if (pat.str_[i] == '\0')
-		return s;
+
 	return -1;
 }
 
