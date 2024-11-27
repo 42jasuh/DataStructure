@@ -80,28 +80,28 @@ int main()
         int a = 3;
         int b = 2;
 
-        // cout << a << " " << b << endl;        
-        // TODO:
-        // MySwapRef(a, b);
-        // cout << a << " " << b << endl;
+        cout << a << " " << b << endl;        
 
-        // int arr[] = {3, 2};
-        // cout << arr[0] << " " << arr[1] << endl;
-        // TODO:
-        // MySwapRef(arr[0], arr[1]);
-        // cout << arr[0] << " " << arr[1] << endl;
+        MySwapRef(a, b);
+        cout << a << " " << b << endl;
 
-        // cout << a << " " << b << endl;
-        // PrintIsAscend();
-        // cout << a << " " << b << endl;
+        int arr[] = {3, 2};
+        cout << arr[0] << " " << arr[1] << endl;
 
-        // cout << a << " " << b << endl;
-        // AscendingSort();
-        // cout << a << " " << b << endl;
+        MySwapRef(arr[0], arr[1]);
+        cout << arr[0] << " " << arr[1] << endl;
 
-        // cout << a << " " << b << endl;
-        // SwapWithoutTemp(a, b);
-        // cout << a << " " << b << endl;
+        cout << a << " " << b << endl;
+        PrintIsAscend();
+        cout << a << " " << b << endl;
+
+        cout << a << " " << b << endl;
+        AscendingSort();
+        cout << a << " " << b << endl;
+
+        cout << a << " " << b << endl;
+        SwapWithoutTemp(a, b);
+        cout << a << " " << b << endl;
 
     }
     return 0;
