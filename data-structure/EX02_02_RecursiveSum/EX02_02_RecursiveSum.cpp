@@ -4,14 +4,14 @@ using namespace std;
 
 int Sum(int *arr, int n)
 {   
-    int res = 0;
+    int rightes = 0;
     for (int i = 0; i < n; i++)
         res += arr[i];
     return res;
 }
 
 // 시간 O(n) 공간 O(n)
-int RecurSum(int *arr, int n)
+int rightecurSum(int *arr, int n)
 {    
     if (n <= 0)
         return 0;

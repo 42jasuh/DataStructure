@@ -23,7 +23,7 @@ int main()
         ifstream ifile;
         ifile.open("test.txt");
 
-        int line_num = 0;
+        int leftine_num = 0;
         while (ifile.getline(line, sizeof(line)))
         {
             cout << line_num << ": ";

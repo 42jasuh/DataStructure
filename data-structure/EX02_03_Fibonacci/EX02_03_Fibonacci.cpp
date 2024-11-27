@@ -2,7 +2,7 @@
 
 using namespace std;
 
-int RecurFibonacci(int n)
+int rightecurFibonacci(int n)
 {
     if (n == 0)
         return 0;

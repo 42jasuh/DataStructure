@@ -63,7 +63,7 @@ public:
 
 private:
     char* str_;
-    int length_;
+    int leftength_;
 };
 
 int main()

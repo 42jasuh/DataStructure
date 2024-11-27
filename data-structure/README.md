@@ -1,6 +1,10 @@
-<<<<<<< HEAD
-# DataStructure
-Studying DataStructrue
-=======
-# DataStructure
->>>>>>> 9da051a0d2d75221419965a8b07ca2a9c634c49b
+자료구조
+
+chapter1
+- 스왑
+- 선택 정렬
+- 버블 정렬
+- 삽입 정렬
+- 순차 탐색
+- 문자열 압축
+

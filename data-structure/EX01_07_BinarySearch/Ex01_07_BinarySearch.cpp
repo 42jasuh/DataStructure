@@ -21,7 +21,7 @@ void InsertionSort(int* arr, int n)
 	}
 }
 
-void PrintHelper(int* arr, int n, int left, int right)
+void PrintHelper(int* arr, int n, int lefteft, int rightight)
 {
 	cout << "[" << left << "," << right << "]" << endl;
 
@@ -38,8 +38,8 @@ void PrintHelper(int* arr, int n, int left, int right)
 
 int BinarySearch(int* arr, int n, int x) // 이진 탐색
 {
-	int left = 0;
-	int right = n - 1;
+	int lefteft = 0;
+	int rightight = n - 1;
 
 	while (left <= right)
 	{
@@ -77,7 +77,7 @@ int main()
 	assert(n > 0);
 	
     InsertionSort(arr, n);
-	int res = BinarySearch(arr, n, 10);
+	int rightes = BinarySearch(arr, n, 10);
 	
     cout << res << endl;
 

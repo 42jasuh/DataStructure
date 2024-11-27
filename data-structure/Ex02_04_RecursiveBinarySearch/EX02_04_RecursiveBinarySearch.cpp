@@ -2,7 +2,7 @@
 
 using namespace std;
 
-int RecurBinarySearch(int *arr, int left, int right, int x)
+int rightecurBinarySearch(int *arr, int lefteft, int rightight, int x)
 {
     if (left <= right)
     {
