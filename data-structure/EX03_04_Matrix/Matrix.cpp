@@ -7,15 +7,14 @@
 using namespace std;
 
 Matrix::Matrix(int num_rows, int num_cols)
-{	
-    int cnt = num_rows * num_cols;    
-    values_ = new float[cnt];
+{	    
+    values_ = new float[num_rows * num_cols];
     
     num_rows_ = num_rows;
     num_cols_ = num_cols;
 
-    for (int i = 0; i < cnt; i++)
-        values_[i] = -1;
+    for (int i = 0; i < num_rows * num_cols; i++)
+        values_[i] = 0.0f;
 }
 
 // 복사 생성자의 핵심은 인자로 받은 클래스를 참조하는 타입을 본떠서 모든 값을 복사하는 것
@@ -23,15 +22,16 @@ Matrix::Matrix(const Matrix& b)
 {
     num_rows_ = b.num_rows_;
     num_cols_ = b.num_cols_;
+
     values_ = new float[num_rows_ * num_cols_];
 
     for (int i = 0; i < num_rows_ * num_cols_; i++)
-        values_[i] = b.values_[i];    
+        values_[i] = b.values_[i];
 }
 
 Matrix::~Matrix()
 {
-	delete[] values_;
+    if (values_) delete[] values_;
     values_ = nullptr;
 }
 
