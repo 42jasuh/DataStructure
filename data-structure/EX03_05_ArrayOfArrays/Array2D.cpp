@@ -8,16 +8,17 @@ using namespace std;
 
 Array2D::Array2D(int num_rows, int num_cols)
 {
-    float** ptr = new float*[num_rows];
+    arrays_ = new float*[num_rows];
 
     for (int i = 0; i < num_rows; i++)
     {
-        ptr[i] = new float[num_cols];
+        arrays_[i] = new float[num_cols];
         for (int j = 0; j < num_cols; j++)
-            ptr[i][j] = 0;
+            arrays_[i][j] = 0;
     }
-    
-    arrays_ = ptr;
+
+    num_rows_ = num_rows;
+    num_cols_ = num_cols;
 }
 
 // 복사 생성자 (b를 복사)
