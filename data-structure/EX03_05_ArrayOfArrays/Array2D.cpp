@@ -40,8 +40,12 @@ Array2D::Array2D(const Array2D& b)
 
 Array2D::~Array2D()
 {	
+    if (arrays_)
+    {
+        for (int i = 0; i < num_rows_; i++)
+            delete[] arrays_[i];
+    }
     delete[] arrays_;
-    arrays_ = nullptr;
 }
 
 void Array2D::SetValue(int row, int col, float value)
