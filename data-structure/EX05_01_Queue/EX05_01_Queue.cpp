@@ -34,7 +34,7 @@ int main()
 	q.Print();
 
 	for (char c = 'E'; c <= 'K'; c++)
-	{
+	{        
 		q.Enqueue(c);
 		q.Print();
 	}

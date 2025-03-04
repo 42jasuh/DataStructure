@@ -58,16 +58,21 @@ public:
 	}
 
 	void Resize() // 2배씩 증가
-	{
-        if (capacity_ <= rear_ + 1)
+	{   
+        int count = 1;     
+        T* new_p = new T[capacity_ * 2];
+        
+        for (int i = (front_ + 1) % capacity_; i != (rear_ + 1) % capacity_; i = (i + 1) % capacity_)
         {
-            capacity_ *= 2;
-            char* new_p = new char[capacity_];
-            new_p = (char*)memcpy(new_p, queue_, sizeof(char)*capacity_);
-            delete[] queue_;
-            queue_ = new_p;
-            front_ = 0;
+            new_p[count] = queue_[i];
+            count++;
         }
+        
+        front_ = 0;
+        rear_ = capacity_ -1;
+        capacity_ *= 2;
+        delete[] queue_;
+        queue_ = new_p;
 	}
 
 	void Enqueue(const T& item) // 맨 뒤에 추가, Push()
@@ -75,18 +80,15 @@ public:
 		if (IsFull())
 			Resize();
 
-        if (rear_ + 1 <= capacity_ && 0 < front_) {
-            rear_ = (rear_ + 1) % capacity_;
-        } else {
-            rear_++;
-        }
+        rear_ = (rear_ + 1) % capacity_;
         queue_[rear_] = item;
 	}
 
 	void Dequeue() // 큐의 첫 요소 삭제, Pop()
 	{
 		assert(!IsEmpty());        
-		front_++;
+		
+        front_ = (front_+1) % capacity_;
 	}
 
 	void Print()
